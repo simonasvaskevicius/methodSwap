@@ -1,0 +1,78 @@
+plugins {
+    id 'groovy'
+    id "com.gradle.plugin-publish" version "0.10.1"
+    id "java-gradle-plugin"
+}
+
+group 'com.simonasvaskevicius'
+version '1.0'
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
+gradlePlugin {
+    plugins {
+        methodSwap {
+            id = 'com.simonasvaskevicius.methodSwap'
+            implementationClass = 'MethodReplacePlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/simonasvaskevicius/methodSwap'
+    vcsUrl = 'https://github.com/simonasvaskevicius/methodSwap'
+    description = 'Method swapping plugin!'
+
+    plugins {
+        methodSwap {
+            displayName = 'Method Swap'
+            tags = ['external library', 'method swap', 'method replace', 'method']
+            version = '1.0'
+        }
+
+
+    }
+}
+
+
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('repo'))
+        }
+    }
+    task createClasspathManifest {
+        def outputDir = file("$buildDir/$name")
+
+        inputs.files sourceSets.main.runtimeClasspath
+        outputs.dir outputDir
+
+        doLast {
+            outputDir.mkdirs()
+            file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+        }
+    }
+}
+
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation group: 'org.javassist', name: 'javassist', version: '3.25.0-GA'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation 'com.android.tools.build:gradle-api:3.3.2'
+    testCompile gradleTestKit()
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:2.1.0'
+    testCompile "com.android.tools.build:gradle:3.3.2"
+    testCompile 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    testImplementation fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+
