@@ -1,4 +1,4 @@
-plugins {
+  plugins {
     id 'groovy'
     id "com.gradle.plugin-publish" version "0.10.1"
     id "java-gradle-plugin"
