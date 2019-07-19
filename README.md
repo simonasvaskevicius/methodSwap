@@ -9,7 +9,6 @@
 ## Installation
 #### Add methodSwap plugin into the project:
 
-1. Item
 2. Add methodSwap plugin into the project:
    * Add this to your project level build.gradle:
    
@@ -23,7 +22,7 @@
                           dependencies {
                             classpath "gradle.plugin.com.simonasvaskevicius:methodSwap:1.0"
                           }
-                        }
+              }
         ```
              
    * Add this to your application level build.gradle:  
