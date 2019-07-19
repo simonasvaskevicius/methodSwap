@@ -9,29 +9,31 @@
 ## Installation
 #### Add methodSwap plugin into the project:
 
-   - Add this to your project level build.gradle:
-        ```
-        buildscript {
-                     repositories {
-                       maven {
-                         url "https://plugins.gradle.org/m2/"
-                       }
-                     }
-                     dependencies {
-                       classpath "gradle.plugin.com.simonasvaskevicius:methodSwap:1.0"
-                     }
-                   }
-        ```
-        
-   - Add this to your application level build.gradle:  
+1. Item
+2. Add methodSwap plugin into the project:
+   * Add this to your project level build.gradle:
    
         ```
-         apply plugin: "com.simonasvaskevicius.methodSwap"
-        ```   
+             buildscript {
+                          repositories {
+                            maven {
+                              url "https://plugins.gradle.org/m2/"
+                            }
+                          }
+                          dependencies {
+                            classpath "gradle.plugin.com.simonasvaskevicius:methodSwap:1.0"
+                          }
+                        }
+        ```
+             
+   * Add this to your application level build.gradle:  
         
-####Create an extension in application level build.gradle file, with custom settings:
+        ```
+              apply plugin: "com.simonasvaskevicius.methodSwap"
+        ```   
+3. Create an extension in application level build.gradle file, with custom settings:
 
-   - Single method swap:
+   * Single method swap:
         ```
         android {
         
@@ -50,7 +52,7 @@
            }
 
         ```
-   - Multiple method swaps:
+   * Multiple method swaps:
 
         ```
         android {
@@ -77,5 +79,4 @@
            }
         ```
 
-
-#####After successful project clean and rebuild, the methods will be changed!
+After successful project clean and rebuild, the methods will be changed!
