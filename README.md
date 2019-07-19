@@ -9,7 +9,7 @@
 ## Installation
 #### Add methodSwap plugin into the project:
 
-2. Add methodSwap plugin into the project:
+1. Add methodSwap plugin into the project:
    * Add this to your project level build.gradle:
    
         ```
@@ -30,7 +30,7 @@
         ```
               apply plugin: "com.simonasvaskevicius.methodSwap"
         ```   
-3. Create an extension in application level build.gradle file, with custom settings:
+2. Create an extension in application level build.gradle file, with custom settings:
 
    * Single method swap:
         ```
