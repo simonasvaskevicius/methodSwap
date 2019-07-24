@@ -1,7 +1,8 @@
-  plugins {
+plugins {
     id 'groovy'
     id "com.gradle.plugin-publish" version "0.10.1"
     id "java-gradle-plugin"
+    id 'java'
 }
 
 group 'com.simonasvaskevicius'
@@ -38,7 +39,6 @@ pluginBundle {
     }
 }
 
-
 apply plugin: 'maven'
 
 uploadArchives {
@@ -64,13 +64,13 @@ uploadArchives {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
+    implementation 'com.android.tools.build:gradle-api:3.3.2'
+    implementation 'com.android.tools.build:gradle:3.4.2'
     implementation group: 'org.javassist', name: 'javassist', version: '3.25.0-GA'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation 'com.android.tools.build:gradle-api:3.3.2'
     testCompile gradleTestKit()
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:2.1.0'
-    testCompile "com.android.tools.build:gradle:3.3.2"
     testCompile 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     testImplementation fileTree(include: ['*.jar'], dir: 'libs')
 }

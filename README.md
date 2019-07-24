@@ -2,10 +2,6 @@
 
  Plugin that allows to edit external libraries source code!
 
-## Requirements
-- minSdkVersion 16
-- compileSdkVersion 28
-
 ## Installation
 #### Add methodSwap plugin into the project:
 
@@ -30,6 +26,15 @@
         ```
               apply plugin: "com.simonasvaskevicius.methodSwap"
         ```   
+        
+   * Alternatively you can use : 
+        
+        ```
+              plugins {
+                id "com.simonasvaskevicius.methodSwap" version "1.0"
+              }
+        ```
+        
 2. Create an extension in application level build.gradle file, with custom settings:
 
    * Single method swap:

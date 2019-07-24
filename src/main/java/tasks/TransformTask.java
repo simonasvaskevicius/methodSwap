@@ -26,17 +26,12 @@ import java.util.jar.JarOutputStream;
 
 public class TransformTask extends Transform {
 
-    static final int LOGGER_STATUS_SEARCHING = 1;
-    static final int LOGGER_STATUS_FOUND = 2;
-    static final int LOGGER_STATUS_ERROR = 3;
-
     private Logger logger;
-    private boolean found = false;
     private MethodReplaceExtension extensions;
     private String name = "methodReplace";
 
     public TransformTask(MethodReplaceExtension extensions) {
-        logger = org.slf4j.LoggerFactory.getLogger("some-logger");
+        logger = org.slf4j.LoggerFactory.getLogger("methodReplace-logger");
         this.extensions = extensions;
     }
 
@@ -62,9 +57,7 @@ public class TransformTask extends Transform {
 
     @Override
     public void transform(@NonNull TransformInvocation transformInvocation)
-            throws TransformException, InterruptedException, IOException {
-        log(LOGGER_STATUS_SEARCHING);
-
+            throws TransformException, IOException {
         for (TransformInput input : transformInvocation.getInputs()) {
             for (JarInput jarInput : input.getJarInputs()) {
                 String jarName = jarInput.getName();
@@ -77,13 +70,10 @@ public class TransformTask extends Transform {
                     try {
                         handleLibrary(src, dest);
                     } catch (NotFoundException | CannotCompileException e) {
-                        e.printStackTrace();
-                        throw new TransformException(e.getMessage());
+                        throw new TransformException(e);
                     }
                 } else FileUtils.copyFile(src, dest);
             }
-
-            log(isFound() ? LOGGER_STATUS_FOUND : LOGGER_STATUS_ERROR);
         }
     }
 
@@ -101,7 +91,7 @@ public class TransformTask extends Transform {
                 list.put(ctc, extension);
                 removeMethod(ctc, extension);
                 ctc.addMethod(CtNewMethod.make(extension.getReplaceTo(), ctc));
-                logger.error("Replaced: " + extension.getMethodTitle() + " in " + extension.getClassName());
+                logger.info("Replaced: " + extension.getMethodTitle() + " in " + extension.getClassName());
             }
         }
 
@@ -121,10 +111,8 @@ public class TransformTask extends Transform {
         for (Map.Entry<CtClass, MethodReplaceItem> item : list.entrySet()) {
             output.putNextEntry(new JarEntry(item.getValue().getClassPath()));
             output.write(item.getKey().toBytecode());
-            item.getKey().defrost();
         }
 
-        setFound();
         output.close();
     }
 
@@ -144,7 +132,6 @@ public class TransformTask extends Transform {
         return false;
     }
 
-
     private CtClass getCtcClass(ClassPool pool, MethodReplaceItem extension) {
         try {
             return pool.get(extension.getClassName());
@@ -152,34 +139,4 @@ public class TransformTask extends Transform {
             return null;
         }
     }
-
-
-    private void log(int type) {
-        String message = "";
-        String suffix = "methodSwap:";
-        switch (type) {
-            case LOGGER_STATUS_SEARCHING:
-                message = "Searching";
-                break;
-            case LOGGER_STATUS_FOUND:
-                message = "Found and replaced";
-                break;
-            case LOGGER_STATUS_ERROR:
-                message = "Method not found";
-                break;
-            default:
-                break;
-        }
-        String logMessage = suffix + message;
-        logger.warn(logMessage);
-    }
-
-    private boolean isFound() {
-        return found;
-    }
-
-    private void setFound() {
-        found = true;
-    }
-
 }
