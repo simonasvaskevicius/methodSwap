@@ -1,6 +1,7 @@
 # methodSwap
 
  Plugin that allows to edit external libraries source code!
+ https://plugins.gradle.org/plugin/com.simonasvaskevicius.methodSwap
 
 ## Installation
 #### Add methodSwap plugin into the project:
